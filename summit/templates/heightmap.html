@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!--Горы (Высоты - {{height_choose}})-->
+<h3 class="text-center">Горы (Высоты)</h3>
+<div class="container-fluid d-flex justify-content-center">
+  {{plot | safe}}
+</div>
+
+{% endblock  %}

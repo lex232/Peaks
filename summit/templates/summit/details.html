@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Детальная информация о {{all_summits.title}}:</h2>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table" style="width: 100%">
+                <thead>
+                <tr>
+                    <th scope="col">Параметр</th>
+                    <th scope="col">Значение</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td scope="row">Название:</td>
+                    <td class="text-dark">{{all_summits.title}}</td>
+                </tr>
+                <tr>
+                    <td scope="row">Высота:</td>
+                    <td>{{all_summits.high}}</td>
+                </tr>
+                <tr>
+                    <td scope="row">Горный массив:</td>
+                    <td>{{all_summits.mountainrange}}</td>
+                </tr>
+                <tr>
+                    <td scope="row">Страна:</td>
+                    <td>{{all_summits.country}}</td>
+                </tr>
+                <tr>
+                    <td scope="row">Координаты: (Latitude/Longitude)</td>
+                    <td>{{all_summits.lat_pos}}, {{all_summits.long_pos}}</td>
+                </tr>
+                <tr>
+                    <td scope="row">Описание:</td>
+                    <td>{{all_summits.description}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <table class="table" style="width: 100%">
+                <thead>
+                <tr>
+                    <th scope="col">На карте:</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td scope="row">
+                        <script>
+                            var long_coord = {{all_summits.long_pos}};
+                            var lat_coord = {{all_summits.lat_pos}};
+                        </script>
+                        <div class="map" id="map"></div>
+                        <script type="text/javascript">
+                            var baseMapLayer = new ol.layer.Tile({
+                                source: new ol.source.OSM()
+                            });
+
+
+                            var map = new ol.Map({
+                                target: 'map',
+                                layers: [ baseMapLayer],
+                                view: new ol.View({
+                                    center: ol.proj.fromLonLat([long_coord,lat_coord]),
+                                    zoom: 7 //Initial Zoom Level
+                                })
+                            });
+
+                            var marker = new ol.Feature({
+                                geometry: new ol.geom.Point(
+                                ol.proj.fromLonLat([long_coord,lat_coord])
+                            ),
+                            });
+
+                            marker.setStyle(new ol.style.Style({
+                                image: new ol.style.Icon(({
+                                crossOrigin: 'anonymous',
+                                {% load static %}
+                                src: "{% static "dot.png" %}"
+                                }))
+                            }));
+
+                            var vectorSource = new ol.source.Vector({
+                                features: [marker]
+                            });
+                            var markerVectorLayer = new ol.layer.Vector({
+                                source: vectorSource,
+                            });
+                            map.addLayer(markerVectorLayer);
+
+
+
+                        </script>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<a href="{% url 'summit:main' %}">Назад к вершинам</a>
+
+{% endblock  %}
