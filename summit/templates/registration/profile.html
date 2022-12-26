@@ -1,10 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Profile Page{% endblock title %}
+{% block content %}
 
-</body>
-</html>
+<div class="form-content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card-header justify-content-center">
+                    <h3 class="font-weight-light my-1 text-center">Профиль {{user.username}}</h3>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                {% if user_form.errors %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                    <div id="form_errors">
+                        {% for key, value in user_form.errors.items %}
+                        <strong>{{ value }}</strong>
+                        {% endfor %}
+                    </div>
+                    <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-8">
+                <div class="shadow-lg border-0 rounded-lg">
+                    <div class="row">
+                        <div class="col-4 mt-4 ps-4 mx-auto text-center">
+                            <img class="rounded-circle  account-img" src="{{ user.profile.avatar.url }}"
+                                 style="cursor: pointer;"/>
+                        </div>
+                        <div class="col-8 mt-4">
+                            <div class="form-content">
+                                <form enctype="multipart/form-data" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-row">
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                                <label class="small mb-0">Никнейм:</label>
+                                                {{ user_form.username }}
+                                                <label class="small mb-1">Email:</label>
+                                                {{ user_form.email }}
+                                            </div>
+                                            <div class="form-group">
+                                                <a class="btn btn-dark btn-md mt-2" href="{% url 'password_change' %}">Сменить пароль</a>
+                                                <hr>
+                                                <label class="small mb-1">Сменить аватар:</label>
+                                                {{ profile_form.avatar }}
+                                            </div>
+                                            <label class="small mb-1">О себе:</label> {{ profile_form.bio }}
+                                        </div>
+                                    </div>
+                                    <div class="col-12 mt-4 mb-4">
+                                        <button class="btn btn-dark btn-lg" type="submit">Обновить</button>
+                                        <button class="btn btn-dark btn-lg" type="reset">Отмена</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

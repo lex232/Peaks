@@ -2,6 +2,11 @@ html {
   height: 100%;
 }
 
+.container{
+  flex-direction: row | row-reverse | column | column-reverse;
+  flex-wrap: nowrap | wrap | wrap-reverse;
+}
+
 .map {
   height: 400px;
   width: 100%;
@@ -19,6 +24,38 @@ body {
 bg-dark {
     background-color: rgba(var(--bs-indigo),var(--bs-bg-opacity));
 }
+
+button.close {
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+  -webkit-appearance: none;
+}
+
+.none-under {
+  text-decoration: none;
+}
+
+.close {
+  float: right;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .5;
+}
+
+.fade.show {
+  opacity: 1;
+}
+
+.fade {
+  opacity: 0;
+  transition: opacity .15s linear;
+}
+
+
 
 .bd-placeholder-img {
         font-size: 1.125rem;

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4>Самые известные вершины с краткой информацией:</h4>
+<table class="table table-striped" style="width: 100%">
+    <thead>
+    <tr>
+      <th scope="col">Название</th>
+      <th scope="col">Высота</th>
+      <th scope="col">Горный массив</th>
+      <th scope="col">...</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for AboutSummit in all_summits %}
+      <tr>
+        <td class="text-dark"><b>{{AboutSummit.title}}</b></td>
+        <td class="text-dark">{{AboutSummit.high}}</td>
+        <td class="text-dark">{{AboutSummit.country}}</td>
+        <td class="text-dark"> <a href="{% url 'summit:details' AboutSummit.id %}">Подробнее..</a></td>
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>
+{% endblock  %}
+

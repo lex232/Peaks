@@ -1,74 +1,127 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-  <symbol id="geo-fill" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411z"/>
-  </symbol>
+<svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="geo-fill" viewBox="0 0 16 16">
+        <path d="M4 4a4 4 0 1 1 4.5 3.969V13.5a.5.5 0 0 1-1 0V7.97A4 4 0 0 1 4 3.999zm2.493 8.574a.5.5 0 0 1-.411.575c-.712.118-1.28.295-1.655.493a1.319 1.319 0 0 0-.37.265.301.301 0 0 0-.057.09V14l.002.008a.147.147 0 0 0 .016.033.617.617 0 0 0 .145.15c.165.13.435.27.813.395.751.25 1.82.414 3.024.414s2.273-.163 3.024-.414c.378-.126.648-.265.813-.395a.619.619 0 0 0 .146-.15.148.148 0 0 0 .015-.033L12 14v-.004a.301.301 0 0 0-.057-.09 1.318 1.318 0 0 0-.37-.264c-.376-.198-.943-.375-1.655-.493a.5.5 0 1 1 .164-.986c.77.127 1.452.328 1.957.594C12.5 13 13 13.4 13 14c0 .426-.26.752-.544.977-.29.228-.68.413-1.116.558-.878.293-2.059.465-3.34.465-1.281 0-2.462-.172-3.34-.465-.436-.145-.826-.33-1.116-.558C3.26 14.752 3 14.426 3 14c0-.599.5-1 .961-1.243.505-.266 1.187-.467 1.957-.594a.5.5 0 0 1 .575.411z"
+              fill-rule="evenodd"/>
+    </symbol>
 </svg>
-
-  <div class="container px-4 py-5" id="icon-grid">
-    <h2 class="pb-2 border-bottom">Вершины мира</h2>
-
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
-      <div class="col d-flex align-items-start">
-        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#geo-fill"/></svg>
-        <div>
-          <h3 class="fw-bold mb-0 fs-4">Все вершины</h3>
-          <p><a href="{% url 'heightmap' 9000 %}" class="icon-link d-inline-flex align-items-center">В порядке возрастания</a>
-          <a href="{% url 'heightmap' 9001 %}" class="icon-link d-inline-flex align-items-center">В порядке убывания</a></p>
+<div class="container px-4 py-0" id="icon-grid">
+    <h3 class="pb-1 border-bottom">Самые высокие вершины мира</h3>
+    <div class="album py-3 bg-light">
+        <div class="container">
+            <div class="row">
+                {% for AboutSummit in highest_summit %}
+                <div class="col-md-3">
+                    <div class="card mb-4 box-shadow">
+                        <img alt="Card image cap"
+                             class="card-img-top"
+                             {% load static %}
+                             src="{{ AboutSummit.image_prev.url }} ">
+                        <div class="card-body">
+                            <p class="card-text"><b>{{AboutSummit.title}}</b> {{AboutSummit.high}} м.</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <form action="{% url 'summit:details' AboutSummit.id %}">
+                                <div class="btn-group">
+                                    <button class="btn btn-sm btn-outline-secondary" type="submit">Подробнее</button>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-      </div>
-      <div class="col d-flex align-items-start">
-        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#geo-fill"/></svg>
-        <div>
-          <h3 class="fw-bold mb-0 fs-4">> 8000m.</h3>
-          <p><a href="{% url 'heightmap' 8000 %}" class="icon-link d-inline-flex align-items-center">Показать восьмитысячники</a></p>
-        </div>
-      </div>
-      <div class="col d-flex align-items-start">
-        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#geo-fill"/></svg>
-        <div>
-          <h3 class="fw-bold mb-0 fs-4">> 7000m. ></h3>
-          <p><a href="{% url 'heightmap' 7000 %}" class="icon-link d-inline-flex align-items-center">Показать семитысячники</a></p>
-        </div>
-      </div>
-      <div class="col d-flex align-items-start">
-        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#geo-fill"/></svg>
-        <div>
-          <h3 class="fw-bold mb-0 fs-4">> 6000m. ></h3>
-          <p><a href="{% url 'heightmap' 6000 %}" class="icon-link d-inline-flex align-items-center">Показать шеститысячники</a></p>
-        </div>
-      </div>
-      <div class="col d-flex align-items-start">
-        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#geo-fill"/></svg>
-        <div>
-          <h3 class="fw-bold mb-0 fs-4">> 5000m. ></h3>
-          <p><a href="{% url 'heightmap' 5000 %}" class="icon-link d-inline-flex align-items-center">Показать пятитысячники</a></p>
-        </div>
-      </div>
-      <div class="col d-flex align-items-start">
-        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#geo-fill"/></svg>
-        <div>
-          <h3 class="fw-bold mb-0 fs-4">> 4000m. ></h3>
-          <p><a href="{% url 'heightmap' 4000 %}" class="icon-link d-inline-flex align-items-center">Показать четырехтысячники</a></p>
-        </div>
-      </div>
-      <div class="col d-flex align-items-start">
-        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#geo-fill"/></svg>
-        <div>
-          <h3 class="fw-bold mb-0 fs-4">> 3000m. ></h3>
-          <p><a href="{% url 'heightmap' 3000 %}" class="icon-link d-inline-flex align-items-center">Показать трехтысячники</a></p>
-        </div>
-      </div>
-      <div class="col d-flex align-items-start">
-        <svg class="bi text-muted flex-shrink-0 me-3" width="1.75em" height="1.75em"><use xlink:href="#geo-fill"/></svg>
-        <div>
-          <h3 class="fw-bold mb-0 fs-4">< 2000m.</h3>
-          <p><a href="{% url 'heightmap' 2000 %}" class="icon-link d-inline-flex align-items-center">Показать <2000m.</a></p>
-        </div>
-      </div>
     </div>
-  </div>
+    <h3 class="pb-2 border-bottom">Графики вершин мира по высоте</h3>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
+        <div class="col d-flex align-items-start">
+            <svg class="bi text-muted flex-shrink-0 me-3" height="1.75em" width="1.75em">
+                <use xlink:href="#geo-fill"/>
+            </svg>
+            <div>
+                <h3 class="fw-bold mb-0 fs-4">Все вершины</h3>
+                <p><a class="icon-link d-inline-flex align-items-center" href="{% url 'heightmap' 9000 %}">В
+                    порядке
+                    возрастания</a>
+                    <a class="icon-link d-inline-flex align-items-center" href="{% url 'heightmap' 9001 %}">В
+                        порядке
+                        убывания</a></p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <svg class="bi text-muted flex-shrink-0 me-3" height="1.75em" width="1.75em">
+                <use xlink:href="#geo-fill"/>
+            </svg>
+            <div>
+                <h3 class="fw-bold mb-0 fs-4">> 8000m.</h3>
+                <p><a class="icon-link d-inline-flex align-items-center" href="{% url 'heightmap' 8000 %}">Показать
+                    восьмитысячники</a></p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <svg class="bi text-muted flex-shrink-0 me-3" height="1.75em" width="1.75em">
+                <use xlink:href="#geo-fill"/>
+            </svg>
+            <div>
+                <h3 class="fw-bold mb-0 fs-4">> 7000m. ></h3>
+                <p><a class="icon-link d-inline-flex align-items-center" href="{% url 'heightmap' 7000 %}">Показать
+                    семитысячники</a></p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <svg class="bi text-muted flex-shrink-0 me-3" height="1.75em" width="1.75em">
+                <use xlink:href="#geo-fill"/>
+            </svg>
+            <div>
+                <h3 class="fw-bold mb-0 fs-4">> 6000m. ></h3>
+                <p><a class="icon-link d-inline-flex align-items-center" href="{% url 'heightmap' 6000 %}">Показать
+                    шеститысячники</a></p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <svg class="bi text-muted flex-shrink-0 me-3" height="1.75em" width="1.75em">
+                <use xlink:href="#geo-fill"/>
+            </svg>
+            <div>
+                <h3 class="fw-bold mb-0 fs-4">> 5000m. ></h3>
+                <p><a class="icon-link d-inline-flex align-items-center" href="{% url 'heightmap' 5000 %}">Показать
+                    пятитысячники</a></p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <svg class="bi text-muted flex-shrink-0 me-3" height="1.75em" width="1.75em">
+                <use xlink:href="#geo-fill"/>
+            </svg>
+            <div>
+                <h3 class="fw-bold mb-0 fs-4">> 4000m. ></h3>
+                <p><a class="icon-link d-inline-flex align-items-center" href="{% url 'heightmap' 4000 %}">Показать
+                    четырехтысячники</a></p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <svg class="bi text-muted flex-shrink-0 me-3" height="1.75em" width="1.75em">
+                <use xlink:href="#geo-fill"/>
+            </svg>
+            <div>
+                <h3 class="fw-bold mb-0 fs-4">> 3000m. ></h3>
+                <p><a class="icon-link d-inline-flex align-items-center" href="{% url 'heightmap' 3000 %}">Показать
+                    трехтысячники</a></p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <svg class="bi text-muted flex-shrink-0 me-3" height="1.75em" width="1.75em">
+                <use xlink:href="#geo-fill"/>
+            </svg>
+            <div>
+                <h3 class="fw-bold mb-0 fs-4">< 2000m.</h3>
+                <p><a class="icon-link d-inline-flex align-items-center" href="{% url 'heightmap' 2000 %}">Показать
+                    <2000m.</a></p>
+            </div>
+        </div>
+    </div>
+</div>
 
-{% endblock  %}
+{% endblock %}

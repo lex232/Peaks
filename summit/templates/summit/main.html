@@ -1,27 +1,106 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Список вершин</h1>
-<br>
 <h4>Самые известные вершины с краткой информацией:</h4>
-<table class="table" style="width: 100%">
-    <thead>
-    <tr>
-      <th scope="col">Название</th>
-      <th scope="col">Высота</th>
-      <th scope="col">Горный массив</th>
-      <th scope="col">...</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for AboutSummit in all_summits %}
-      <tr>
-        <td class="text-dark"><b>{{AboutSummit.title}}</b></td>
-        <td class="text-dark">{{AboutSummit.high}}</td>
-        <td class="text-dark">{{AboutSummit.country}}</td>
-        <td class="text-dark"> <a href="{% url 'summit:details' AboutSummit.id %}">Подробнее..</a></td>
-      </tr>
-      {% endfor %}
-  </tbody>
-</table>
+<div class="container">
+    <div class="row">
+        <div class="col-10">
+            <table class="table table-striped" style="width: 100%">
+                <thead>
+                <tr>
+                    <th scope="col">Название</th>
+                    <th scope="col">Высота</th>
+                    <th scope="col">Страна</th>
+                    <th scope="col">Горный массив</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for AboutSummit in page_obj %}
+                <tr>
+                    <td class="text-dark"><a href="{% url 'summit:details' AboutSummit.id %}"><b>{{AboutSummit.title}}</b></a></td>
+                    <td class="text-dark">{{AboutSummit.high}}</td>
+                    <td class="text-dark">{{AboutSummit.country}}</td>
+                    <td class="text-dark">{{AboutSummit.mountainrange}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1&select={{select_command}}&from={{high_from}}&till={{high_till}}&pages_count={{select_pages}}">Первая</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}&select={{select_command}}&from={{high_from}}&till={{high_till}}&pages_count={{select_pages}}">Предыдущая</a></li>
+                    {% endif %}
+                    <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</a></li>
+                    {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}&select={{select_command}}&from={{high_from}}&till={{high_till}}&pages_count={{select_pages}}">Следующая</a></li>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}&select={{select_command}}&from={{high_from}}&till={{high_till}}&pages_count={{select_pages}}">Последняя &raquo;</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        <div class="col-2">
+            <table class="table" style="width: 100%">
+                <thead>
+                <tr>
+                    <th scope="col">Фильтры</th>
+                </tr>
+                </thead>
+            </table>
+            <tbody>
+            <tr>
+                <td>
+                    <div class="dropdown">
+                        <form action="" method="GET" sytle="width: 100%;">
+                            <!-- ADD THIS TAG IN HTML FORMS WITH POST REQUESTS-->
+                            <div class="form-group pb-2">
+                                <label class="pb-2" for="select-filter-1">Сортировать по:</label>
+                                <select class="form-select" id="select-filter-1" name='select'>
+                                    <option value=up>высоте (вниз)</option>
+                                    <option value=down>высоте (вверх)</option>
+                                    <option value=name_up>имени (вниз)</option>
+                                    <option value=name_down>имени (вверх)</option>
+                                    <option value=country_up>стране (вниз)</option>
+                                    <option value=country_down>стране (вверх)</option>
+                                </select>
+                                <script type="text/javascript">
+                                    $("#select-filter-1").val("{{select_command}}");
+                                </script>
+                                <label class="pt-2 pb-2" for="form-from">Высота от:</label>
+                                <span id="rangeval">{{high_from}}<!-- Default value --></span>
+                                <p>
+                                    <input class="form-range" id="form-from"
+                                           max="9000"
+                                           min="0" name='from' onInput="$('#rangeval').html($(this).val())" type="range"
+                                           value="{{high_from}}">
+
+                                    <label class="pt-2 pb-2" for="form-till">Высота до:</label>
+                                    <span id="rangeval-till">{{high_till}}<!-- Default value --></span>
+                                    <input class="form-range" id="form-till"
+                                           max="9000"
+                                           min="0" name='till' onInput="$('#rangeval-till').html($(this).val())"
+                                           type="range"
+                                           value="{{high_till}}">
+                                <label class="pb-2" for="select-filter-pages">Отображать по:</label>
+                                <select class="form-select" id="select-filter-pages" name='pages_count'>
+                                    <option value=10>10</option>
+                                    <option value=20>20</option>
+                                    <option value=30>30</option>
+                                    <option value=50>50</option>
+                                    <option value=100>100</option>
+                                </select>
+                                <script type="text/javascript">
+                                    $("#select-filter-pages").val("{{select_pages}}");
+                                </script>
+                            </div>
+                            <button class="btn btn-primary mt-2" type="submit">Применить</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </div>
+    </div>
+</div>
+
 {% endblock  %}
 

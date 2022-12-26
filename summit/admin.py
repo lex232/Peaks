@@ -1,6 +1,23 @@
 from django.contrib import admin
-from .models import AboutSummit, Country, MountainRange
+#Добавляем поля в админ-панель
+from .models import AboutSummit, Country, MountainRange, Profile, MountainImages
 
-admin.site.register(AboutSummit)
+#Добавляем поля в админ-панель
+#admin.site.register(AboutSummit)
 admin.site.register(Country)
 admin.site.register(MountainRange)
+admin.site.register(Profile)
+
+class MountainImageAdmin(admin.StackedInline):
+    model = MountainImages
+
+@admin.register(AboutSummit)
+class AboutSummitAdmin(admin.ModelAdmin):
+    inlines = [MountainImageAdmin]
+
+    class Meta:
+       model = AboutSummit
+
+@admin.register(MountainImages)
+class MountainImageAdmin(admin.ModelAdmin):
+    pass
