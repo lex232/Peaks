@@ -22,7 +22,7 @@
                         <div class="card-body">
                             <p class="card-text"><b>{{AboutSummit.title}}</b> {{AboutSummit.high}} м.</p>
                             <div class="d-flex justify-content-between align-items-center">
-                                <form action="{% url 'summit:details' AboutSummit.id %}">
+                                <form action="{% url 'summit:details' AboutSummit.slug %}">
                                 <div class="btn-group">
                                     <button class="btn btn-sm btn-outline-secondary" type="submit">Подробнее</button>
                                 </div>

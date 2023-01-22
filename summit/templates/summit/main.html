@@ -16,7 +16,7 @@
                 <tbody>
                 {% for AboutSummit in page_obj %}
                 <tr>
-                    <td class="text-dark"><a href="{% url 'summit:details' AboutSummit.id %}"><b>{{AboutSummit.title}}</b></a></td>
+                    <td class="text-dark"><a href="{% url 'summit:details' AboutSummit.slug %}"><b>{{AboutSummit.title}}</b></a></td>
                     <td class="text-dark">{{AboutSummit.high}}</td>
                     <td class="text-dark">{{AboutSummit.country}}</td>
                     <td class="text-dark">{{AboutSummit.mountainrange}}</td>

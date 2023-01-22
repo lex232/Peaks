@@ -38,6 +38,21 @@
                 </tr>
                 </tbody>
             </table>
+             <table class="table table-striped" style="width: 100%">
+                <thead>
+                <tr>
+                    <th scope="col">Основное фото:</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td scope="row"><img alt="Card image cap"
+                             class="card-img-top"
+                             {% load static %}
+                             src="{{ all_summits.image_prev.url }} "></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
         <div class="col">
             <table class="table" style="width: 100%">

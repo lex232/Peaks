@@ -14,6 +14,9 @@ class MountainImageAdmin(admin.StackedInline):
 @admin.register(AboutSummit)
 class AboutSummitAdmin(admin.ModelAdmin):
     inlines = [MountainImageAdmin]
+    list_display = ('pk', 'title', 'high',)
+    search_fields = ('title',)
+    list_filter = ('country',)
 
     class Meta:
        model = AboutSummit

@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from PIL import Image
-
-
 # resizing images
 
 
@@ -42,7 +40,7 @@ class MountainRange(models.Model):
 
 # БД о вершине, информация self
 class AboutSummit(models.Model):
-    title = models.CharField(max_length=200, default = None)
+    title = models.CharField(verbose_name='Name of mountain', max_length=200, default = None)
     high = models.PositiveIntegerField(default = 0)
     description = models.TextField(default = None)
     #Координаты
@@ -52,13 +50,14 @@ class AboutSummit(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
     mountainrange = models.ForeignKey(MountainRange, on_delete=models.CASCADE)
     #Изображение - превью
-    image_prev = models.FileField(upload_to = 'images/', default='mountain-default.jpg')
+    image_prev = models.FileField(upload_to = 'images/prev/%Y-%m-%d/', default='mountain-default.jpg')
+    slug = models.SlugField(verbose_name='URL', max_length=50, blank=True, null=True, unique=True,)
 
     def save(self, *args, **kwargs):
         super().save()
         img = Image.open(self.image_prev.path)
-        if img.height > 200 or img.width > 300:
-            new_img = (300, 200)
+        if img.height > 400 or img.width > 600:
+            new_img = (600, 400)
             img.thumbnail(new_img)
             img.save(self.image_prev.path)
 

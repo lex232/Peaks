@@ -152,9 +152,9 @@ def user_form(request):
         return redirect(reverse('summit:user_info'))
 
 
-def details(request, id):
+def details(request, slug):
     title = 'Details'
-    all_summits = AboutSummit.objects.get(id=id)
+    all_summits = AboutSummit.objects.get(slug=slug)
     context = {'title': title,
                'all_summits': all_summits}
     return render(request, 'summit/details.html', context)
