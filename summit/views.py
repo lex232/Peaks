@@ -153,7 +153,7 @@ def user_form(request):
 
 
 def details(request, slug):
-    title = 'Details'
+    title = 'Информация о ' + slug + ' Высота, расположение, фото'
     all_summits = AboutSummit.objects.get(slug=slug)
     context = {'title': title,
                'all_summits': all_summits}

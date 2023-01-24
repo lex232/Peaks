@@ -24,14 +24,14 @@ class Profile(models.Model):
 
 # Страны Many-to-One
 class Country(models.Model):
-    name = models.CharField(max_length=150, default = None)
+    name = models.CharField(max_length=150, default = None, unique=True,)
 
     def __str__(self):
         return self.name
 
 # Горный массив Many-to-One
 class MountainRange(models.Model):
-    name = models.CharField(max_length=150, default = None)
+    name = models.CharField(max_length=150, default = None, unique=True,)
 
     def __str__(self):
         return self.name
@@ -40,14 +40,15 @@ class MountainRange(models.Model):
 
 # БД о вершине, информация self
 class AboutSummit(models.Model):
-    title = models.CharField(verbose_name='Name of mountain', max_length=200, default = None)
+    title = models.CharField(verbose_name='Name of mountain', max_length=200, default = None, unique=True,)
     high = models.PositiveIntegerField(default = 0)
     description = models.TextField(default = None)
     #Координаты
     long_pos = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
     lat_pos = models.DecimalField(max_digits=22, decimal_places=16, blank=True, null=True)
     #Страна и Горный массив.
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    country = models.ForeignKey(Country, verbose_name='First Country', on_delete=models.CASCADE)
+    country_2 = models.ForeignKey(Country,verbose_name='Second country', on_delete=models.CASCADE, related_name='country_second', blank=True, null=True)
     mountainrange = models.ForeignKey(MountainRange, on_delete=models.CASCADE)
     #Изображение - превью
     image_prev = models.FileField(upload_to = 'images/prev/%Y-%m-%d/', default='mountain-default.jpg')

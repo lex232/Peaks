@@ -28,6 +28,12 @@
                     <td scope="row">Страна:</td>
                     <td>{{all_summits.country}}</td>
                 </tr>
+                {% if all_summits.country_2 %}
+                <tr>
+                    <td scope="row">Вторая страна:</td>
+                    <td>{{all_summits.country_2}}</td>
+                </tr>
+                {% endif %}
                 <tr>
                     <td scope="row">Координаты: (Latitude/Longitude)</td>
                     <td>{{all_summits.lat_pos}}, {{all_summits.long_pos}}</td>
