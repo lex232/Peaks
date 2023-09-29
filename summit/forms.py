@@ -2,13 +2,22 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
-from .models import Profile
+from .models import Profile, Post
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ('title', 'text', 'summit_select')
 
 
 class UpdateUserForm(forms.ModelForm):
     username = forms.CharField(max_length=100,
                                required=True,
-                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+                               widget=forms.TextInput(
+                                attrs={'class': 'form-control'}
+                                )
+                               )
     email = forms.EmailField(required=True,
                              widget=forms.TextInput(attrs={'class': 'form-control'}))
 
@@ -27,7 +36,7 @@ class UpdateProfileForm(forms.ModelForm):
 
 
 class RegisterForm(UserCreationForm):
-    # fields we want to include and customize in our form
+
     first_name = forms.CharField(max_length=100,
                                  required=True,
                                  widget=forms.TextInput(attrs={'placeholder': 'Имя',
@@ -54,17 +63,21 @@ class RegisterForm(UserCreationForm):
                                                                   'data-toggle': 'password',
                                                                   'id': 'password',
                                                                   }))
-    password2 = forms.CharField(max_length=50,
-                                required=True,
-                                widget=forms.PasswordInput(attrs={'placeholder': 'Подтвердите пароль',
-                                                                  'class': 'form-control',
-                                                                  'data-toggle': 'password',
-                                                                  'id': 'password',
-                                                                  }))
+    password2 = forms.CharField(
+        max_length=50,
+        required=True,
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Подтвердите пароль',
+            'class': 'form-control',
+            'data-toggle': 'password',
+            'id': 'password'}))
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
+        fields = [
+            'first_name', 'last_name', 'username',
+            'email', 'password1', 'password2'
+        ]
 
 
 class LoginForm(AuthenticationForm):

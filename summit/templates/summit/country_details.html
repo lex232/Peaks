@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container px-4 py-2" id="custom-cards">
+    <h3 class="pb-2 border-bottom">Горы в стране - {{ selected_country.name }} <img
+                             class="country-img-detail"
+                             src="{{ selected_country.image_flag.url }} "></h3>
+    <div class="row mb-2">
+        <div class="col-md-5">
+            <img class="img-fluid rounded-start pt-4" src="{{ selected_country.image_country.url }}">
+        </div>
+        <div class="col-md-7">
+            <div class="card-body">
+                <p class="card-text"></p>
+                <input class="read-more-checker" id="read-more-checker" type="checkbox"/>
+                <div class="limiter">
+                    {{ selected_country.description }}
+                    <div class="bottom-lim"></div>
+                </div>
+                <label class="read-more-button" for="read-more-checker"></label>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <table class="table table-striped" style="width: 100%">
+            <thead>
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Высота</th>
+                <th scope="col">Горный массив</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for all_summits in all_summits %}
+            <tr>
+                <td class="text-dark"><a href="{% url 'summit:details' all_summits.slug %}"><b>{{ all_summits.title }}</b></a>
+                </td>
+                <td class="text-dark">{{ all_summits.high }}</td>
+                <td class="text-dark">{{ all_summits.mountainrange }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

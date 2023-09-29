@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container px-4 py-2" id="custom-cards">
+    <h3 class="pb-2 border-bottom">Отчеты о походах/ восхождениях</h3>
+    {% for Reports in all_reports %}
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="..." class="img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">{{ Reports.title }}</h5>
+              <p class="card-text">{{ Reports.text }}</p>
+              <p class="card-text"><small class="text-body-secondary">Дата публикации: {{ Reports.pub_date}}</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+</div>    
+{% endblock  %}

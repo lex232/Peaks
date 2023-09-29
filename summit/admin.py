@@ -1,15 +1,11 @@
 from django.contrib import admin
-#Добавляем поля в админ-панель
-from .models import AboutSummit, Country, MountainRange, Profile, MountainImages
+from .models import AboutSummit, Country, MountainRange
+from .models import Profile, MountainImages, Post
 
-#Добавляем поля в админ-панель
-#admin.site.register(AboutSummit)
-admin.site.register(Country)
-admin.site.register(MountainRange)
-admin.site.register(Profile)
 
 class MountainImageAdmin(admin.StackedInline):
     model = MountainImages
+
 
 @admin.register(AboutSummit)
 class AboutSummitAdmin(admin.ModelAdmin):
@@ -19,8 +15,15 @@ class AboutSummitAdmin(admin.ModelAdmin):
     list_filter = ('country',)
 
     class Meta:
-       model = AboutSummit
+        model = AboutSummit
+
 
 @admin.register(MountainImages)
 class MountainImageAdmin(admin.ModelAdmin):
     pass
+
+
+admin.site.register(Country)
+admin.site.register(MountainRange)
+admin.site.register(Profile)
+admin.site.register(Post)

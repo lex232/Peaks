@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Детальная информация о {{all_summits.title}}:</h2>
+<h3>Детальная информация о {{all_summits.title}}:</h3>
 <div class="container">
     <div class="row">
         <div class="col">
@@ -26,12 +26,18 @@
                 </tr>
                 <tr>
                     <td scope="row">Страна:</td>
-                    <td>{{all_summits.country}}</td>
+                    <td><img alt="Country image"
+                             class="country-img"
+                             {% load static %}
+                             src="{{ all_summits.country.image_flag.url }} ">{{all_summits.country.name}}</td>
                 </tr>
                 {% if all_summits.country_2 %}
                 <tr>
                     <td scope="row">Вторая страна:</td>
-                    <td>{{all_summits.country_2}}</td>
+                    <td><img alt="Country image"
+                             class="country-img"
+                             {% load static %}
+                             src="{{ all_summits.country_2.image_flag.url }} ">{{all_summits.country_2.name}}</td>
                 </tr>
                 {% endif %}
                 <tr>
@@ -52,7 +58,7 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td scope="row"><img alt="Card image cap"
+                    <td scope="row"><img alt="Mountain image"
                              class="card-img-top"
                              {% load static %}
                              src="{{ all_summits.image_prev.url }} "></td>
@@ -111,9 +117,6 @@
                                 source: vectorSource,
                             });
                             map.addLayer(markerVectorLayer);
-
-
-
                         </script>
                     </td>
                 </tr>
@@ -122,7 +125,5 @@
         </div>
     </div>
 </div>
-
 <a href="{% url 'summit:main' %}">Назад к вершинам</a>
-
 {% endblock  %}

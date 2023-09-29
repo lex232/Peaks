@@ -1,0 +1,17 @@
+asgiref
+backports.zoneinfo;python_version<"3.9"
+Django
+django-ckeditor
+django-filebrowser
+django-grappelli
+django-js-asset
+django-tinymce
+django-widget-tweaks
+numpy
+pandas
+Pillow
+plotly
+python-dateutil
+pytz
+six
+sqlparse
